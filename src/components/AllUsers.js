@@ -5,11 +5,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
 import { alpha } from '@mui/material';
 import InputBase from '@mui/material/InputBase';
-import MenuIcon from '@mui/icons-material/Menu';
+import { CSVLink } from "react-csv"
 import SearchIcon from '@mui/icons-material/Search';
-
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import AppPagination from './AppPagination';
 
 
 
@@ -73,14 +71,21 @@ const TRow = styled(TableRow)`
         font-size: 18px
     }
 `;
+const header = [{ label: "Name", key: "name" },
+{ label: "Mobile", key: "mobile" },
+{ label: "Address", key: "address" }]
 
 function AllUsers() {
 
     const [users, setUsers] = useState([]);
     const [query, setQuery] = useState("");
-  
+    const csvReport={
+        filename:"userReport.csv",
+        headers:header,
+        data:users
+    }
 
- 
+
     console.log(query)
     useEffect(() => {
         getAlluser();
@@ -96,14 +101,14 @@ function AllUsers() {
         alert("Delete User SuccesFully")
         getAlluser();
     }
-    
- 
+
+
 
     return (
         <StyledTable>
             <TableHead>
                 <THead>
-                    
+
                     <TableCell>Name</TableCell>
                     <TableCell>Contact</TableCell>
                     <TableCell>Address</TableCell>
@@ -135,8 +140,9 @@ function AllUsers() {
                             </TableRow>
                         ))
                 }
+
             </TableBody>
-           
+            <CSVLink{...csvReport}>Dowlnolad CSV</CSVLink>
         </StyledTable>
     )
 }
